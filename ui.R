@@ -7,8 +7,12 @@ library(shinydashboard)
 library(shinyWidgets)
 
 ui <- dashboardPage(
-  dashboardHeader(title = "Weight Adjustment On Sampling",
-                  titleWidth = 300),
+  dashboardHeader(title = "Weight Adjustment On Sampling", titleWidth = 300,
+                  tags$li(class = "dropdown", 
+                          tags$a(href = "https://shinyapps.science.psu.edu/", 
+                                 icon("home", lib = "font-awesome"))),
+                  tags$li(class = "dropdown", 
+                          actionLink("info", icon("info"), class = "myClass"))),
   dashboardSidebar(width = 180,
     sidebarMenu(id='tabs',
       menuItem('Prerequisites', tabName='preq', icon=icon('book')),
@@ -48,7 +52,7 @@ ui <- dashboardPage(
                 h4("Explore how weighting adjustment affects the predicted results in survey analysis."),br(),
                 h3(strong("Instructions:")),
                 h4(tags$li("Move the sliders around to explore how the weighting adjustment affects the results.")),
-                h4(tags$li("Use your bestjudgement to find out the correct adjustment weight for each scenario.")),
+                h4(tags$li("Use your best judgement to find out the correct adjustment weight for each scenario.")),
                 h4(tags$li("Notice that the summation bar should never be larger than one because the weighted sample should never be larger than the population.")),
                 div(style = "text-align: center",
                     bsButton("go","G O !",icon("bolt"),style = "danger",size = "medium",class = "circle grow")),
@@ -60,12 +64,12 @@ ui <- dashboardPage(
                ),
       tabItem(tabName = "easy",
               fluidPage(
-                div(style="display: inline-block;vertical-align:top;",
-                    tags$a(href='https://shinyapps.science.psu.edu/',tags$img(src='homebut.PNG', width = 19))
-                ),
-                div(style="display: inline-block;vertical-align:top;",
-                    circleButton("info",icon = icon("info"), status = "myClass",size = "xs")
-                ),
+                #div(style="display: inline-block;vertical-align:top;",
+                    #tags$a(href='https://shinyapps.science.psu.edu/',tags$img(src='homebut.PNG', width = 19))
+                #),
+                #div(style="display: inline-block;vertical-align:top;",
+                    #circleButton("info",icon = icon("info"), status = "myClass",size = "xs")
+                #),
                 theme = "theme.css",
                 
                 tags$head(tags$style("#successM{color: red;
@@ -123,7 +127,8 @@ ui <- dashboardPage(
                   fluidRow(
                    wellPanel(
                       fluidRow(h3("Left is the treemap of gender proportion in population.")), 
-                      fluidRow(h3("Right is the treemap of gender proportion in the sample.")),br(),
+                      fluidRow(h3("Right is the treemap of gender proportion in the sample.")),
+                      br(),
                       fluidRow(h3("Area represents the proportion.")),
                       fluidRow(img(src = "arrow5.png", align = "right",width = 80))
                       , class = "col-lg-4 col-md-6 col-sm-12 col-xs-12"),
@@ -140,7 +145,7 @@ ui <- dashboardPage(
                     bsTooltip(id='female', 'Use the weight 52/70, population divided by sample', placement='top', trigger='click',option=NULL),
                     
                     wellPanel(
-                      sliderInput("male","Weight for Male:", min = 0, value = 1, max = 2, step = 0.1),
+                      sliderInput("male","Weight for Male:", min = 0, value = 1, max = 2, step = 0.02),
                       textOutput("hintM"),
                       #conditionalPanel("input.male == 1.6", textOutput("successM")),
                       br(),
@@ -175,12 +180,12 @@ ui <- dashboardPage(
               ),
       tabItem(tabName = "hard",
               fluidPage(
-                div(style="display: inline-block;vertical-align:top;",
-                    tags$a(href='https://shinyapps.science.psu.edu/',tags$img(src='homebut.PNG', width = 19))
-                ),
-                div(style="display: inline-block;vertical-align:top;",
-                    circleButton("info1",icon = icon("info"), status = "myClass",size = "xs")
-                ),
+                #div(style="display: inline-block;vertical-align:top;",
+                    #tags$a(href='https://shinyapps.science.psu.edu/',tags$img(src='homebut.PNG', width = 19))
+                #),
+                #div(style="display: inline-block;vertical-align:top;",
+                    #circleButton("info1",icon = icon("info"), status = "myClass",size = "xs")
+                #),
                 theme = "sliderColor.css",
                         titlePanel("Weighting adjustment with unknown population"),
                         
@@ -203,19 +208,29 @@ ui <- dashboardPage(
                                 div(style = "height:35px", sliderInput("hispanic",NULL, min = 0, value = 0.5, max = 1, step = 0.01)),
                                 div(style = "height:35px", sliderInput("black",NULL, min = 0, value = 0.5, max = 1, step = 0.3)),
                                 div(style = "height:35px", sliderInput("white",NULL, min = 0, value = 1, max = 2, step = 0.7))
-                              ))
-                            ),
+                              ),
+                              #Labels for the sliders
+                              column(3,
+                                div(style = "position: relative; left: 243px; bottom: 133px", h5("Other")),
+                                div(style = "position: relative; left: 243px; bottom: 121px", h5("Asian")),
+                                div(style = "position: relative; left: 243px; bottom: 111px", h5("Latino")),
+                                div(style = "position: relative; left: 243px; bottom: 100px", h5("Black")),
+                                div(style = "position: relative; left: 243px; bottom: 89px", h5("White"))
+                              )
+                            )),
+                            
                             div(style = "position:relative; top:-140px",
-                            column(7,uiOutput("warningB")), column(5,div(style = "margin-top:7px",img(src = "legend.png", width = 400))),
+                            column(7,uiOutput("warningB")), 
+                            column(5,div(style = "",img(src = "legend.png", width = 400))),
                             column(12,uiOutput("progressB")),
                             div(style = "position: relative; top:-15px", div(style = "float: left", print("0")),div(style = "float:right", print("n"))))
                           
                           ),
                           fluidRow(column(8, offset = 2,
-                            div(style = "position:relative; top:-420px;",
+                            div(style = "position:relative; top:-450px;",
                                       conditionalPanel(condition = "(input.white == 1.4) & (input.black == 0.6)
                                                       & (input.hispanic == 0.73) & (input.asian == 0.4) & (input.other == 0.6)",
-                                                      wellPanel(h1(textOutput("Congradulation")), class = "transparentpanel"))))
+                                                      wellPanel(h1(textOutput("Congragulations!")), class = "transparentpanel"))))
                           )
                          
                             ))
@@ -223,3 +238,4 @@ ui <- dashboardPage(
     )
   )
 )
+
