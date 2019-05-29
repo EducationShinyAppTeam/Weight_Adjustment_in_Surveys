@@ -80,12 +80,21 @@ shinyServer(function(input, output,session) {
     dataf[c(1,3),"Population"] = dataf[c(1,3),"Population"] *  value[1]
     dataf[c(2,4),"Population"] = dataf[c(2,4),"Population"] *  value[2]
     
+<<<<<<< HEAD
     treemap(dataf, index=c("Gender","TVshow"), vSize = "Population", type="index", 
             palette =  colorRampPalette(brewer.pal(4, "Pastel1"))(4), 
             title="Use Sample to Represent Population", fontsize.title = 14, fontsize.labels = 16)
   }, width = 300, height = 260)
   
   
+=======
+    tm <- treemap(dataf, index=c("Gender","TVshow"), vSize = "Population", type="index", 
+            palette =  colorRampPalette(brewer.pal(4, "Pastel1"))(4),
+          fontsize.labels = 16)
+    tm + ggtitle("Use Sample to Represent Population")
+    tm + theme(plot.title = element_text(size = 14, face = "bold"))
+  }, width = 270, height = 260)
+>>>>>>> cbbdb512a234ed6da5bdc07e9e405aa606eb1483
   ##create the bar chart for Easy level
   output$bar <- renderPlot({
     
