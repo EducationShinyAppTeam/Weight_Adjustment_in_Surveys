@@ -7,7 +7,13 @@ library(shinydashboard)
 library(shinyWidgets)
 
 ui <- dashboardPage(
+
   dashboardHeader(title = "Weight Adjustment On Sampling",
+                  tags$li(class = "dropdown",
+                          tags$a(href = "https://shinyapps.science.psu.edu/",
+                                 icon("home",lib ="font-awesome"))),
+                  tags$li(class = "dropdown",
+                          actionLink("info",icon("info",class = "myClass"))),
                   titleWidth = 300),
   dashboardSidebar(width = 180,
     sidebarMenu(id='tabs',
@@ -52,6 +58,7 @@ ui <- dashboardPage(
                 h4(tags$li("Notice that the summation bar should never be larger than one because the weighted sample should never be larger than the population.")),
                 div(style = "text-align: center",
                     bsButton("go","G O !",icon("bolt"),style = "danger",size = "medium",class = "circle grow")),
+                    #bsButton("start", "GO", icon("bolt"),size = "large", style = "warning")),
                 br(),
                 h3(strong("Acknowledgements:")),
                 h4("This app was developed and coded by Yuxin Zhang and updated by Luxin Wang and Thomas McIntyre. The exit poll data set was extracted from", 
@@ -60,12 +67,12 @@ ui <- dashboardPage(
                ),
       tabItem(tabName = "easy",
               fluidPage(
-                div(style="display: inline-block;vertical-align:top;",
-                    tags$a(href='https://shinyapps.science.psu.edu/',tags$img(src='homebut.PNG', width = 19))
-                ),
-                div(style="display: inline-block;vertical-align:top;",
-                    circleButton("info",icon = icon("info"), status = "myClass",size = "xs")
-                ),
+                #div(style="display: inline-block;vertical-align:top;",
+                    #tags$a(href='https://shinyapps.science.psu.edu/',tags$img(src='homebut.PNG', width = 19))
+                #),
+                #div(style="display: inline-block;vertical-align:top;",
+                    #circleButton("info",icon = icon("info"), status = "myClass",size = "xs")
+                #),
                 theme = "theme.css",
                 
                 tags$head(tags$style("#successM{color: red;
@@ -117,19 +124,21 @@ ui <- dashboardPage(
                                  larger than the proportion of males in the population. Therefore, we need weighting adjustment
                                  to the data we got. Based on the following table and proportion graph, can you guess what is the 
                                  correct weight? Try playing around with both sliders following the instruction."),
-                              fluidRow(column(4,img(src = "image1.png", width = 200)),column(4,img(src = "image2.png", width = 300))))
+                              fluidRow(column(6,img(src = "image1.png", width = 200)),column(6,img(src = "image2.png", width = 300))))
                     ),
                   
                   fluidRow(
                    wellPanel(
-                      fluidRow(h3("Left is the treemap of gender proportion in population.")), 
-                      fluidRow(h3("Right is the treemap of gender proportion in the sample.")),br(),
-                      fluidRow(h3("Area represents the proportion.")),
-                      fluidRow(img(src = "arrow5.png", align = "right",width = 80))
-                      , class = "col-lg-4 col-md-6 col-sm-12 col-xs-12"),
-                    wellPanel(plotOutput("population"), class = "wellBorder col-lg-4 col-md-6 col-sm-12 col-xs-12"),
-                    wellPanel(plotOutput("sample"), class = "wellBorder col-lg-4 col-md-6 col-sm-12 col-xs-12")
+                      #fluidRow(h3("Left is the treemap of gender proportion in population.")), 
+                      #fluidRow(h3("Right is the treemap of gender proportion in the sample.")),br(),
+                      fluidRow(h3("The Bar Plot showing the gender proportion")),
+                      #fluidRow(img(src = "arrow5.png", align = "right",width = 80)),
+                      fluidRow(plotOutput("barPopSample"))
+                      #class = "col-lg-4 col-md-6 col-sm-12 col-xs-12"
+                      #fluidRow(column(6,h3("Left is the treemap of gender proportion in population."), column(6,h3("Right is the treemap of gender proportion in the sample."))))
+                      )
                   ),
+                  
                   fluidRow(
                     uiOutput("warning"),
                     uiOutput("progress"),
@@ -175,12 +184,12 @@ ui <- dashboardPage(
               ),
       tabItem(tabName = "hard",
               fluidPage(
-                div(style="display: inline-block;vertical-align:top;",
-                    tags$a(href='https://shinyapps.science.psu.edu/',tags$img(src='homebut.PNG', width = 19))
-                ),
-                div(style="display: inline-block;vertical-align:top;",
-                    circleButton("info1",icon = icon("info"), status = "myClass",size = "xs")
-                ),
+                #div(style="display: inline-block;vertical-align:top;",
+                    #tags$a(href='https://shinyapps.science.psu.edu/',tags$img(src='homebut.PNG', width = 19))
+                #),
+                #div(style="display: inline-block;vertical-align:top;",
+                    #circleButton("info1",icon = icon("info"), status = "myClass",size = "xs")
+                #),
                 theme = "sliderColor.css",
                         titlePanel("Weighting adjustment with unknown population"),
                         
@@ -203,8 +212,15 @@ ui <- dashboardPage(
                                 div(style = "height:35px", sliderInput("hispanic",NULL, min = 0, value = 0.5, max = 1, step = 0.01)),
                                 div(style = "height:35px", sliderInput("black",NULL, min = 0, value = 0.5, max = 1, step = 0.3)),
                                 div(style = "height:35px", sliderInput("white",NULL, min = 0, value = 1, max = 2, step = 0.7))
-                              ))
-                            ),
+                              ),
+                              column(3,
+                                     div(style = "position: relative; left: 243px; bottom: 133px", h5("Other")),
+                                     div(style = "position: relative; left: 243px; bottom: 121px", h5("Asian")),
+                                     div(style = "position: relative; left: 243px; bottom: 111px", h5("Latino")),
+                                     div(style = "position: relative; left: 243px; bottom: 100px", h5("Black")),
+                                     div(style = "position: relative; left: 243px; bottom: 89px", h5("White"))
+                              )
+                            )),
                             div(style = "position:relative; top:-140px",
                             column(7,uiOutput("warningB")), column(5,div(style = "margin-top:7px",img(src = "legend.png", width = 400))),
                             column(12,uiOutput("progressB")),

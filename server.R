@@ -54,19 +54,25 @@ shinyServer(function(input, output,session) {
   })
   
   #############################Easy level###########################################################
-  ##create the static treemaps for easy level
-  output$population <- renderPlot({
-    treemap(datafP, index = c("GenderP"), vSize = "PopulationP", type = "index", 
-            palette = colorRampPalette(brewer.pal(4, "Pastel1"))(4), 
-            title = "Gender Proportion in Population", fontsize.title = 16, fontsize.labels = 16)
-  },width = 250, height = 250)
   
-  output$sample <- renderPlot({
-    treemap(datafS, index = c("GenderS"), vSize = "PopulationS", type="index", 
-            palette =  colorRampPalette(brewer.pal(4, "Pastel1"))(4),
-            title="Gender Proportion in the Sample", fontsize.title = 16, fontsize.labels = 16)
-  },width = 250, height = 250)
   
+  ###UPDATE###
+  #create the static bar chart for Easy level (sample and pop)
+  output$barPopSample <- renderPlot({
+  barTable <- matrix(c(52,70,48,30),ncol=2, byrow = TRUE)
+  colnames(barTable) <- c("Poplulation", "Sample")
+  barTable <- as.table(barTable)
+ 
+  barplot(barTable, main="Gender Proportion",
+          col=c("#FBB4AE","#B3CDE3"),
+          width = 0.8, xlim = c(0,2),cex.names=1, cex.main = 1.3)
+  par(lwd = 2)
+  legend("topright", c("Female","Male"), fill=c("#FBB4AE","#B3CDE3"))
+  
+}, width = 370, height = 320)
+
+
+
   ##create the interactive treemap for easy level
   output$samplePop <- renderPlot({
     
@@ -77,7 +83,9 @@ shinyServer(function(input, output,session) {
     treemap(dataf, index=c("Gender","TVshow"), vSize = "Population", type="index", 
             palette =  colorRampPalette(brewer.pal(4, "Pastel1"))(4), 
             title="Use Sample to Represent Population", fontsize.title = 14, fontsize.labels = 16)
-  }, width = 260, height = 260)
+  }, width = 300, height = 260)
+  
+  
   ##create the bar chart for Easy level
   output$bar <- renderPlot({
     
@@ -91,7 +99,7 @@ shinyServer(function(input, output,session) {
     matrix = as.matrix(dataframe)
     par(lwd = 2)
     barplot(matrix, col = c("#FBB4AE","#B3CDE3"), main = "Supporting Rate of Both Show", 
-            width = 0.8, xlim = c(0,2),cex.names=1, cex.main = 1.3)
+            width = 0.8, xlim = c(0,2),cex.names=1, cex.main = 1.3, ylim = c(0,60))
     par(lwd = 2)
     legend("topright", c("Female","Male"), fill=c("#FBB4AE","#B3CDE3"))
     
