@@ -46,7 +46,7 @@ shinyServer(function(input, output,session) {
   
   output$dataTable <- renderTable(read.csv("dataTable.csv"))
   output$populationRatio <- renderTable(read.csv("PopulationRatio.csv"))
- 
+  
   
   
   inputs= reactive({
@@ -59,20 +59,20 @@ shinyServer(function(input, output,session) {
   ###UPDATE###
   #create the static bar chart for Easy level (sample and pop)
   output$barPopSample <- renderPlot({
-  barTable <- matrix(c(52,70,48,30),ncol=2, byrow = TRUE)
-  colnames(barTable) <- c("Poplulation", "Sample")
-  barTable <- as.table(barTable)
- 
-  barplot(barTable, main="Gender Proportion",
-          col=c("#FBB4AE","#B3CDE3"),
-          width = 0.8, xlim = c(0,2),cex.names=1, cex.main = 1.3)
-  par(lwd = 2)
-  legend("topright", c("Female","Male"), fill=c("#FBB4AE","#B3CDE3"))
+    barTable <- matrix(c(52,70,48,30),ncol=2, byrow = TRUE)
+    colnames(barTable) <- c("Poplulation", "Sample")
+    barTable <- as.table(barTable)
+    
+    barplot(barTable, main="Gender Proportion",
+            col=c("#FBB4AE","#B3CDE3"),
+            width = 0.8, xlim = c(0,2),cex.names=1, cex.main = 1.3)
+    par(lwd = 2)
+    legend("topright", c("Female","Male"), fill=c("#FBB4AE","#B3CDE3"))
+    
+  }, width = 370, height = 320)
   
-}, width = 370, height = 320)
-
-
-
+  
+  
   ##create the interactive treemap for easy level
   output$samplePop <- renderPlot({
     
@@ -80,21 +80,12 @@ shinyServer(function(input, output,session) {
     dataf[c(1,3),"Population"] = dataf[c(1,3),"Population"] *  value[1]
     dataf[c(2,4),"Population"] = dataf[c(2,4),"Population"] *  value[2]
     
-<<<<<<< HEAD
     treemap(dataf, index=c("Gender","TVshow"), vSize = "Population", type="index", 
             palette =  colorRampPalette(brewer.pal(4, "Pastel1"))(4), 
             title="Use Sample to Represent Population", fontsize.title = 14, fontsize.labels = 16)
   }, width = 300, height = 260)
   
   
-=======
-    tm <- treemap(dataf, index=c("Gender","TVshow"), vSize = "Population", type="index", 
-            palette =  colorRampPalette(brewer.pal(4, "Pastel1"))(4),
-          fontsize.labels = 16)
-    tm + ggtitle("Use Sample to Represent Population")
-    tm + theme(plot.title = element_text(size = 14, face = "bold"))
-  }, width = 270, height = 260)
->>>>>>> cbbdb512a234ed6da5bdc07e9e405aa606eb1483
   ##create the bar chart for Easy level
   output$bar <- renderPlot({
     
@@ -131,7 +122,7 @@ shinyServer(function(input, output,session) {
   ##vertical bar plot
   output$elePopWBar <- renderPlot({
     value = inputs()
-
+    
     barplot(prop.table(rbind(c(eleDatafEW[1,4] * value[3],eleDatafEW[3,4] * value[3]),
                              c(eleDatafEW[4,4] * value[4],eleDatafEW[6,4] * value[4]),
                              c(eleDatafEW[7,4] * value[5],eleDatafEW[9,4] * value[5]),
@@ -139,10 +130,10 @@ shinyServer(function(input, output,session) {
                              c(eleDatafEW[13,4]* value[7],eleDatafEW[15,4]* value[7])))
             , names.arg = c("Clinton","Trump")
             , col= brewer.pal(8, "YlOrBr")
-            )
+    )
   },width = 250, height = 300)
   
-#####################################################################################################  
+  #####################################################################################################  
   ##Hints
   output$hintM <- renderText(
     if (input$male == 1.4 | input$male == 1.8){print("You are close to the right answer.")}
@@ -157,11 +148,11 @@ shinyServer(function(input, output,session) {
   output$Congrats <- renderText(
     print("Congrats!") 
   )
-
+  
   output$Solutions <- renderText(
     print("Finding the correct weight is hard, especially when the population proportion is unknown. ")
-    )
-
+  )
+  
   ##progress bar
   output$progress <- renderUI({
     if (sum(round(input$male * 30),round(input$female * 70)) <= 100){
@@ -226,5 +217,3 @@ shinyServer(function(input, output,session) {
   )
   
 })
-
-
