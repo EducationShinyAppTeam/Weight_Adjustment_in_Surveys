@@ -206,25 +206,19 @@ ui <- dashboardPage(
                                     problems like non-response bias in analyzing samples. This is the exit poll data from 2016 election broken down by race/ethnicity.
                                     Try playing around with the sliders to see how big a difference do weights make.")),
                         column(6,offset = 1,img(src = "electionRace.jpg", width = 300))), class = "well1"),
-                    
+                      
                     column(6,div(style = "height:260px;",plotOutput("elePopEW"))),
                     column(6, 
                            column(5,plotOutput("elePopWBar")),
                            column(5,div(style = "position: relative; left: 20px; top: 30px",
                                         h5("Weights for each variable:"),
-                                        div(style = "height:35px", sliderInput("other",label = NULL, min = 0, value = 0.5, max = 1, step = 0.3)),
-                                        div(style = "height:35px", sliderInput("asian",label = NULL, min = 0, value = 0.5, max = 1, step = 0.2)),
-                                        div(style = "height:35px", sliderInput("hispanic",NULL, min = 0, value = 0.5, max = 1, step = 0.01)),
-                                        div(style = "height:35px", sliderInput("black",NULL, min = 0, value = 0.5, max = 1, step = 0.3)),
-                                        div(style = "height:35px", sliderInput("white",NULL, min = 0, value = 1, max = 2, step = 0.7))
+                                        div(style = "height:35px", sliderInput("other",label = "other", min = 0, value = 0.5, max = 1, step = 0.3)),
+                                        div(style = "height:35px", sliderInput("asian",label = "Asian", min = 0, value = 0.5, max = 1, step = 0.2)),
+                                        div(style = "height:35px", sliderInput("hispanic",label = "Latino", min = 0, value = 0.5, max = 1, step = 0.01)),
+                                        div(style = "height:35px", sliderInput("black",label = "Black", min = 0, value = 0.5, max = 1, step = 0.3)),
+                                        div(style = "height:35px", sliderInput("white",label = "White", min = 0, value = 1, max = 2, step = 0.7))
                            ),
-                           column(3,
-                                  div(style = "position: relative; left: 243px; bottom: 133px", h5("Other")),
-                                  div(style = "position: relative; left: 243px; bottom: 121px", h5("Asian")),
-                                  div(style = "position: relative; left: 243px; bottom: 111px", h5("Latino")),
-                                  div(style = "position: relative; left: 243px; bottom: 100px", h5("Black")),
-                                  div(style = "position: relative; left: 243px; bottom: 89px", h5("White"))
-                           )
+                          
                            )),
                     div(style = "position:relative; top:-140px",
                         column(7,uiOutput("warningB")), column(5,div(style = "margin-top:7px",img(src = "legend.png", width = 400))),
@@ -244,3 +238,5 @@ ui <- dashboardPage(
                     )
                 )
                     )
+
+
