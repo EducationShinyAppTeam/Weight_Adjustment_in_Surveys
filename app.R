@@ -27,7 +27,7 @@ table1 <- read.csv("table_1.csv", TRUE)
 table2 <- read.csv("table_2.csv", TRUE)
 table3 <- read.csv("table_3.csv", TRUE)
 
-# source("global.R")
+# source("global.R")   
 
 # Define UI for App ----
 ui <- list(
@@ -328,7 +328,7 @@ ui <- list(
             column(width = 6,
                    p("In order to predict the result of an election correctly, 
                  statisticians need to use a weighting adjustment to deal with
-                 problems like non-response bias when analyzing samples. This is 
+                 problems like non-response bias in analyzing samples. This is 
                  the exit poll data (Table 3.) from 2020 election broken down by 
                  race/ethnicity. Often pollsters will over sample samller demographic
                  groups in order to get enough responses to have a reasonable Margin 
@@ -336,8 +336,7 @@ ui <- list(
                  for statements about the electorate as a whole. Draw your what you have learned
                  in the previous explore page, and try to calculate weights for each ethnicity variable.
                  You can explore the different weights by moving slider bars for each variable below, and confirm your 
-                 answers by moving the sliders to your calculated values. (Hint: Assume the exit poll is normally
-                 distributed, which means the proportion of each race/ethnicity is the same in the sample exit poll.)"
+                 answers by moving the sliders to your calculated values."
                    ), 
                    wellPanel(
                      p("Question:"), 
@@ -447,11 +446,36 @@ ui <- list(
           citation("ggplot2"), 
           p(
             class = "hangingindent", 
-            "Chang, W., Cheng, J., Allaire, J., Xie, Y., and McPherson, J. (2021), shiny: Web application framework for R, R Package. Available from https://CRAN.R-project.org/package=shiny"
+            "Chang, W., Cheng, J., Allaire, J., Xie, Y., and McPherson, J. (2021),
+            shiny: Web application framework for R, R Package. Available from
+            https://CRAN.R-project.org/package=shiny"
+          ), 
+          p(
+            class = "hangingindent",
+            "Chang W, Cheng J, Allaire J, Xie Y and Mcpherson J (2017). 
+          shiny: Web Application Framework for R. R package version 1.0.3"
+          ),
+          p(
+            class = "hangingindent", 
+            "Neuwirth E. (2014), RColorBrewer: ColorBrewer Palettes, R Package.
+            Available from https://CRAN.R-project.org/package=RColorBrewer"
           ), 
           p(
             class = "hangingindent", 
-            "Perrier, V., Meyer, F., Granjon, D., Fellows, I., and Davis, W. (2020), shinyWidgets: Custom Inputs Widgets for Shiny, R package. Available from https://cran.r-project.org/web/packages/shinyWidgets/index.html"
+            "Perrier, V., Meyer, F., Granjon, D., Fellows, I., and Davis, W. (2020),
+            shinyWidgets: Custom Inputs Widgets for Shiny, R package. Available from
+            https://cran.r-project.org/web/packages/shinyWidgets/index.html"
+          ), 
+          p(
+            class = "hangingindent", 
+            "Tennekes M. and Ellis P. (2017), treemap: Treemap visualization, R Package.
+            Available from https://CRAN.R-project.org/package=treemap"
+          ), 
+          p(
+            class = "hangingindent", 
+            "Xie Y., Cheng J., Tan X., and Allaire J. (2021), DT: A Wrapper of the 
+            JavaScript Library 'DataTables'. R Package. Available from  
+            https://CRAN.R-project.org/package=DT"
           ), 
           br(),
           br(),
@@ -629,10 +653,11 @@ server <- function(input, output, session) {
       )
       #### Make background frame
       barplot(
-        height = c(100.2),
+        height = c(100.6),
         border = "black",
         col = "white",
-        xlim = c(0, 100.1),
+        offset = 0.1,
+        xlim = c(0, 100.6),
         ylim = c(0, 0.3),
         width = 0.2,
         horiz = TRUE,
@@ -646,7 +671,7 @@ server <- function(input, output, session) {
         add = TRUE,
         col = c("#FBB4AE","#B3CDE3"),
         width = 0.17,
-        offset = 0.1,
+        offset = 0.6,
         space = 0.325,
         xlim = c(0, 100),
         ylim = c(0, 0.3)
