@@ -50,7 +50,6 @@ ui <- list(
       )
     ),
     
-    
     ### Create the sidebar/left navigation menu ----
     dashboardSidebar(
       sidebarMenu(
@@ -270,7 +269,8 @@ ui <- list(
                 uiOutput("warning"),
                 plotOutput("HorizontalBar",
                            width = "100%", 
-                           height = 250)
+                           height = "250px"
+                )
               )
             ), 
             column(
@@ -328,7 +328,7 @@ ui <- list(
             column(width = 6,
                    p("In order to predict the result of an election correctly, 
                  statisticians need to use a weighting adjustment to deal with
-                 problems like non-response bias in analyzing samples. This is 
+                 problems like non-response bias when analyzing samples. This is 
                  the exit poll data (Table 3.) from 2020 election broken down by 
                  race/ethnicity. Often pollsters will over sample samller demographic
                  groups in order to get enough responses to have a reasonable Margin 
@@ -336,7 +336,8 @@ ui <- list(
                  for statements about the electorate as a whole. Draw your what you have learned
                  in the previous explore page, and try to calculate weights for each ethnicity variable.
                  You can explore the different weights by moving slider bars for each variable below, and confirm your 
-                 answers by moving the sliders to your calculated values."
+                 answers by moving the sliders to your calculated values. (Hint: Assume the exit poll is normally
+                 distributed, which means the proportion of each race/ethnicity is the same in the sample exit poll.)"
                    ), 
                    wellPanel(
                      p("Question:"), 
@@ -454,7 +455,6 @@ ui <- list(
           ), 
           br(),
           br(),
-        
           br(),
           boastUtils::copyrightInfo()
         )
@@ -618,24 +618,48 @@ server <- function(input, output, session) {
   ### Horizontal Proportion Bar
   output$HorizontalBar <- renderPlot(
     {
-      value = inputs()
-      barTable <- matrix(c(70 * value[2], 30 * value[1]), byrow = TRUE)
+      #### Form Data Vector 
+      barTable <- matrix(c(70 * input$female, 30 * input$male), byrow = TRUE)
       colnames(barTable) <- c("")
       barTable <- as.table(barTable)
+      #### Set line width and plot margins
+      par(
+        lwd = 3,
+        mar = c(4,2,2,2)
+      )
+      #### Make background frame
+      barplot(
+        height = c(100.2),
+        border = "black",
+        col = "white",
+        xlim = c(0, 100.1),
+        ylim = c(0, 0.3),
+        width = 0.2,
+        horiz = TRUE,
+        xlab = "Sample Size"
+      )
+      #### Make Weighted Bar
       barplot(
         barTable,
-        border = FALSE,
+        border = NA,
         horiz = TRUE,
+        add = TRUE,
         col = c("#FBB4AE","#B3CDE3"),
-        width = 0.2, 
-        xlim = c(0,100),
-        ylim = c(0,1)
+        width = 0.17,
+        offset = 0.1,
+        space = 0.325,
+        xlim = c(0, 100),
+        ylim = c(0, 0.3)
       )
+      #### Thin frame for legend
       par(lwd = 1)
-      legend("top",
-             horiz = TRUE,
-             c("Female","Male"),
-             fill = c("#FBB4AE","#B3CDE3")
+      #### Make legend
+      legend(
+        x = "top",
+        inset = 0,
+        horiz = TRUE,
+        legend = c("Female","Male"),
+        fill = c("#FBB4AE","#B3CDE3")
       )
     }
   )
@@ -862,3 +886,4 @@ server <- function(input, output, session) {
 
 # Boast App Call 
 boastUtils::boastApp(ui = ui, server = server)
+
