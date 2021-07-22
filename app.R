@@ -80,7 +80,7 @@ ui <- list(
           tags$ol(
             tags$li("Move the sliders abound to explore how the weighting adjustment affects the results"),
             tags$li("Use your best judgement to find out the correct adjustment weight for each scenario."),
-            tags$li("Notice that the summation bar should never be larger than n because the weighted sample should never be larger than the population.")
+            tags$li("Notice that the summation bar should extend to n because the weighted sample should have the same n as the original sample.")
           ),
           br(),
           ##### Go Button--location will depend on your goals ----
@@ -148,12 +148,14 @@ ui <- list(
               "Context:"
             )
           ),
-          p("In order to find out between The Ellen Show and The Late Night Show which one is more 
-                                 popular in our campus, we did a survey on 100 students. However, this sample cannot 
-                                 represent the population well because the proportion of females in this sample is much 
-                                 larger than the proportion of males in the population. Therefore, we need to apply weighting adjustment
-                                 to the data we got. Based on the following table and the proportion graph, can you caculcate the 
-                                 correct weights for both Male and Female? "), 
+          p("In order to find out whether The Ellen Show or The Late Night Show
+            is more popular in our campus, we did a survey of 100 students.
+            However, the sample was unrepresentative of the population because 
+            the proportion of females in the sample was much larger than the
+            proportion of females in the population. Therefore, we need to 
+            apply a weighting adjustment to the data we got. Based on the 
+            following table and the proportion graph, can you calculate the
+            correct weights for both males and females? "), 
           fluidRow(
             column(
               width = 6,
@@ -284,10 +286,14 @@ ui <- list(
                      wellPanel(
                        h2("Congrats!"
                        ), 
-                       p("The proportion of female is larger than the proportion of male in the sample, which does not
-                                                            represent the population well. Before the weighting adjustment, the supporting rate of
-                                                            The Ellen Show is much higher than that of The Late Night Show, but after the weighting adjustment,
-                                                            the supporting rate of The Ellen Show is almost the same with that of the Late Night Show."
+                       p("The proportion of females is much larger than the 
+                         proportion of males in the sample, which does not
+                         represent the population well. Before the weighting
+                         adjustment, the rate of support for The Ellen Show is
+                         then overestimated because the females preferred that 
+                         show. But after the weighting adjustment, the rate of 
+                         support for The Ellen Show is almost the same as for 
+                         the Late Night Show."
                        ), 
                        p("We can make the response representative with respect to gender. The weight is
                                                             obtained by dividing the population percentage by the corresponding response percentage."
@@ -326,22 +332,29 @@ ui <- list(
           ),
           fluidRow(
             column(width = 6,
-                   p("In order to predict the result of an election correctly, 
-                 statisticians need to use a weighting adjustment to deal with
-                 problems like non-response bias in analyzing samples. This is 
-                 the exit poll data (Table 3.) from 2020 election broken down by 
-                 race/ethnicity. Often pollsters will over sample samller demographic
-                 groups in order to get enough responses to have a reasonable Margin 
-                 of Error for describing thier opinions. This makes weighting very important 
-                 for statements about the electorate as a whole. Draw your what you have learned
-                 in the previous explore page, and try to calculate weights for each ethnicity variable.
-                 You can explore the different weights by moving slider bars for each variable below, and confirm your 
-                 answers by moving the sliders to your calculated values."
+                   p("In order to examine the preferences of different
+                     demographic groupings in an election, statisticians
+                     conduct an exit poll on election day  (or by phone for
+                     those who already voted).  Table 3 gives exit poll data 
+                     from the 2020 election broken down by race/ethnicity. Often
+                     pollsters will over-sample smaller demographic groups in 
+                     order to get enough responses to have a reasonable Margin
+                     of Error for describing their opinions. Suppose for example
+                     , that each of the five groups in Table 3 had the same
+                     number of people sample.  That would make weighting very
+                     important for statements about the electorate as a whole 
+                     since the groups are clearly not of equal size amongst all
+                     voters. Draw on what you learned in the previous explore
+                     page, and try to find weights for each group that make this
+                     exit pollgive the actual final election results. You can
+                     explore the different weights by moving slider bars for
+                     each group below, and confirm your answers when weights
+                     give the true results."
                    ), 
                    wellPanel(
                      p("Question:"), 
-                     p("What is the weight for Biden to match the example
-                       unweighted total align with the actual election results? "), 
+                     p("What is the weight for Biden to match the example unweighted
+                       total align with the actual election results?"), 
                      selectInput(
                        inputId = "white_election", 
                        label = NULL, 
@@ -362,7 +375,7 @@ ui <- list(
             column(
               width = 6,
               DT::DTOutput("table3_election", 
-                           width = "60%", 
+                           width = "80%", 
                            height = "auto"
               )
             )
@@ -751,10 +764,10 @@ server <- function(input, output, session) {
   
   ## Set up the Challenge page server ----
    ### create table3 for the challenge page
-   names(table3) <- c("Race/Ethnicity", "Trump", "Others","Biden","Total")
+   names(table3) <- c("Race/Ethnicity", "Trump", "Others","Biden","% of two party vote for Biden","Total")
    output$table3_election <- DT::renderDT(
     expr = table3, 
-    caption = "Table 3. Full Exit Poll Results of 2020 Election",
+    caption = "Table 3. 2020 Election Exit Poll Results for Race/Ethnicity Groups.",
     autoHideNavigation = TRUE, 
     rownames = FALSE, 
     style = "bootstrap4", 
@@ -796,7 +809,7 @@ server <- function(input, output, session) {
        session = session, 
        inputId = "white_submit",
        output$white_question <- renderIcon(
-         if (input$white_election == 1.4) {condition = "correct"}
+         if (input$white_election == "More than one") {condition = "correct"}
          else {condition = "incorrect"}
        )
      )
@@ -804,7 +817,7 @@ server <- function(input, output, session) {
    ### Feedbacks for the slider bars panel 
    output$warning <- renderUI(
      if (input$male * 30 + input$female * 70 <= 100) {
-       p("Note: Notice that the summation bar should never be larger or smaller than one because the weighted sample should have the same sample size as the real sample.")
+       p("Note: Notice that the summation bar should never be larger or smaller than n=100 because the weighted sample should have the same sample size as the real sample.")
      }
      else{
        p("Warning: The summation is now larger than n.", style = "color: red")
@@ -814,7 +827,7 @@ server <- function(input, output, session) {
    output$warningB <- renderUI({
      value = inputs()
      if (sum(value[3], value[4], value[5], value[6], value[7]) <= 1) {
-       h5("Notice that the summation bar should never be larger or smaller than one because the weighted sample should have the same sample size as the real sample.")
+       h5("Notice that the summation bar should never be larger or smaller than n=100 because the weighted sample should have the same sample size as the real sample.")
      }
      else{
        h5("Warning: The summation is now larger than n.", style = "color: red")
