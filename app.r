@@ -82,7 +82,6 @@ ui <- list(
             tags$li("Use your best judgement to find out the correct adjustment weight for each scenario."),
             tags$li("Notice that the summation bar should extend to n because the weighted sample should have the same n as the original sample.")
           ),
-          br(),
           ##### Go Button--location will depend on your goals ----
           div(
             style = "text-align: center",
@@ -105,7 +104,7 @@ ui <- list(
             br(),
             br(),
             br(),
-            div(class = "updated", "Last Update: 06/17/2021 by Qiaojuan Tu.")
+            div(class = "updated", "Last Update: 07/4/2022 by Xinyue Tang.")
           )
         ),
         #### Set up the Prerequisites Page ----
@@ -161,14 +160,14 @@ ui <- list(
               width = 6,
               DT::DTOutput(
                 "table1_PopSample", 
-                width = "50%", 
+                width = "100%", 
                 height = "auto"
               )
             ), 
             column(
               width = 6,
               DT::DTOutput("table2_sample", 
-                           width = "50%", 
+                           width = "100%", 
                            height = "auto"
               )
             )
@@ -191,7 +190,7 @@ ui <- list(
                        min = 0,
                        step = 0.1,
                        max = 10, 
-                       width = "50%"
+                       width = "100%"
                      ), 
                      actionButton(
                        inputId = "submit1",
@@ -211,7 +210,7 @@ ui <- list(
                        min = 0, 
                        step = 0.1, 
                        max = 10, 
-                       width = "50%"
+                       width = "100%"
                      ), 
                      actionButton(
                        inputId = "submit2", 
@@ -233,13 +232,13 @@ ui <- list(
           br(), 
           br(), 
           p(
-            tags$strong("Explore more about this question based on Table 2.:"
+            tags$strong("Explore more about this question based on Table 2:"
             )
           ),
           br(),
           fluidRow(
             column(
-              width = 4, 
+              width = 6, 
               wellPanel(
                 p("Instruction: Move the slider bar and watch how weighting 
                   adjustment affects the graphs and the summation bar. 
@@ -276,11 +275,11 @@ ui <- list(
               )
             ), 
             column(
-              width = 4, 
+              width = 6, 
               plotOutput("bar")
             ), 
             plotOutput("samplePop"),
-            column(width = 8,
+            column(width = 6,
                    conditionalPanel(
                      condition = "(input.male == 1.6) & (input.female == 0.74)", 
                      wellPanel(
@@ -331,7 +330,7 @@ ui <- list(
             )
           ),
           fluidRow(
-            column(width = 6,
+            column(width = 5,
                    p("In order to examine the preferences of different
                      demographic groupings in an election, statisticians
                      conduct an exit poll on election day  (or by phone for
@@ -373,7 +372,7 @@ ui <- list(
                    )
             ), 
             column(
-              width = 6,
+              width = 7,
               DT::DTOutput("table3_election", 
                            width = "80%", 
                            height = "auto"
@@ -389,7 +388,7 @@ ui <- list(
           ), 
           fluidRow(
             column(
-              width = 4,
+              width = 5,
               wellPanel(
                 p("Instruction: Play around the sliders to see how each affects the graph on the right. Try to calculate the weights for each ethnicity."), 
                 sliderInput("white", label = "White", min = 0, value = 1, max = 2, step = 0.01),
@@ -399,7 +398,7 @@ ui <- list(
                 sliderInput("other", label = "Other", min = 0, value = 1, max = 2, step = 0.01)
               )
             ), 
-            column(width = 8, 
+            column(width = 7, 
                    plotOutput(
                      "elePopWBar"
                    ) 

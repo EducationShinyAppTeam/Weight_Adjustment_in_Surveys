@@ -1,0 +1,22 @@
+Title: Weight Adjustment in Surveys
+ShortName: Weight Adjustment in Surveys 
+Date: 2021-07-11
+Lifecycle: experimental
+Authors@R: c(
+    person(given = "Yuxin", family = "Zhang", email = "", role = c("aut", "cre")),
+    person(given = "Luxin", family = "Wang", email = "", role = c("aut")),
+    person(given = "Mclntyre", family = "Thomas", email = "", role = c("aut")),
+    person(given = "Qiaojuan", family = "Tu", email = "qkt5010@psu.edu", role = c("aut"))
+  )
+Chapter: Chapter 9
+Description: This app is focused on the weight adjustment technique that is commonly commonly used to predict results in survey analysis.
+LearningObjectives: c(
+    "The student will learn to understand the definition of weight adjustment with both population known and unkown.",
+    "The student will learn to understand how the weight adjustment affect the prediction with population known and unknown."
+  )
+DisplayMode: Normal
+URL: https://psu-eberly.shinyapps.io/Weight_Adjustment_in_Surveys
+BugReports: https://github.com/EducationShinyAppTeam/Weight_Adjustment_in_Surveys/issues
+License: CC-BY-NC-SA-4.0
+Tags: simulation
+Type: Shiny
