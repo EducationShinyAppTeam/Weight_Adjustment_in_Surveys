@@ -12,16 +12,16 @@ library(RColorBrewer)
 
 # Load additional dependencies and setup functions
 originaldata <- read.csv("originalDataset.csv", TRUE)
-dataf = data.frame(originaldata)
+dataf <- data.frame(originaldata)
 
 population <- read.csv("population.csv",TRUE)
-datafP = data.frame(population)
+datafP <- data.frame(population)
 
 sample <- read.csv("sample.csv", TRUE)
-datafS = data.frame(sample)
+datafS <- data.frame(sample)
 
 electionPopulationEW <- read.csv("electionPopulationRace.csv",TRUE)
-eleDatafEW = data.frame(electionPopulationEW)
+eleDatafEW <- data.frame(electionPopulationEW)
 
 table1 <- read.csv("table_1.csv", TRUE)
 table2 <- read.csv("table_2.csv", TRUE)
@@ -598,6 +598,14 @@ server <- function(input, output, session) {
       }
     }
   )
+  
+  observeEvent(
+    eventExpr = input$male_weight, 
+    handlerExpr = {
+      output$question1 <- renderIcon()
+      output$question1_hint <- renderText(NULL)
+    }
+  )
 
   
   ### update question 2 button 
@@ -626,6 +634,13 @@ server <- function(input, output, session) {
           }
         )
       }
+    }
+  )
+  observeEvent(
+    eventExpr = input$female_weight,
+    handlerExpr = {
+      output$question2 <- renderIcon()
+      output$question2_hint <- renderText(NULL)
     }
   )
   
