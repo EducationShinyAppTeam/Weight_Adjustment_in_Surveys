@@ -75,7 +75,9 @@ ui <- list(
           tabName = "overview",
           withMathJax(),
           h1("Weight Adjustment in Surveys"), # This should be the full name.
-          p("Explore how weighting adjustment affects the predicted results in survey analysis."),
+          p("Explore how weighting adjustment affects the predicted results in
+            survey analysis."),
+          br(),
           h2("Instructions"),
           tags$ol(
             tags$li("Move the sliders abound to explore how the weighting adjustment affects the results"),
@@ -179,7 +181,7 @@ ui <- list(
                    wellPanel(
                      p(
                        "Answering the following questions according to",
-                       tags$strong("Table 1."),
+                       tags$strong("Table 1"),
                        "and the proportion bar plot on the right:"),
                      br(),
                      p("1. What is the weight for Males to make the sample align with the population? "), 
@@ -572,62 +574,60 @@ server <- function(input, output, session) {
   ### update question 1 button 
   observeEvent(
     eventExpr = input$submit1, 
-    updateTabItems(
-      session = session,
-      inputId = "submit1",
-      output$question1 <- renderIcon(
-        if (input$male_weight == 1.6) {condition = "correct"}
-        else {condition = "incorrect"}
-      )
-    )
+    handlerExp = {
+      if (is.na(input$male_weight)) {
+        sendSweetAlert(
+          session = session,
+          title = "Enter a value",
+          text = "Please be sure to enter a value for the male weight",
+          type = "error"
+        )
+      } else {
+        output$question1 <- renderIcon(
+          icon = ifelse(
+            test = input$male_weight == 1.6,
+            yes = "correct",
+            no = "incorrect"
+          )
+        )
+        output$question1_hint <- renderText(
+          if (input$male_weight == 1.6) {print("Correct! The weight for Males is 48/30 = 1.6.")}
+          else {print("Hint: The weight is used to match the sample Males with the population Males.")
+          }
+        )
+      }
+    }
   )
-  
-  observeEvent(
-    eventExpr = input$submit1, 
-    updateTabItems(
-      session = session, 
-      inputId = "submit1", 
-      output$question1_hint <- renderText(
-        if (input$male_weight == 1.6) {print("Correct! The weight for Males is 48/30 = 1.6.")}
-        else {print("Hint: The weight is used to match the sample Males with the population Males.")
-        }
-      )
-    )
-  )
+
   
   ### update question 2 button 
-  observeEvent(
-    eventExpr = input$submit2, 
-    updateTabItems(
-      session = session, 
-      inputId = "submit2",
-      output$question2 <- renderIcon(
-        if (input$female_weight == 0.74 | input$female_weight == 0.743) {condition = "correct"}
-        else {condition = "incorrect"}
-      )
-    )
-  )
   
   observeEvent(
     eventExpr = input$submit2, 
-    updateTabItems(
-      session = session, 
-      inputId = "submit2", 
-      output$question2_hint <- renderText(
-        if (input$female_weight == 0.74 | input$female_weight == 0.743) {
-          print(
-            "Correct! The weight for Females is 52/70 = 0.74."
+    handlerExp = {
+      if (is.na(input$female_weight)) {
+        sendSweetAlert(
+          session = session,
+          title = "Enter a value",
+          text = "Please be sure to enter a value for the female weight",
+          type = "error"
+        )
+      } else {
+        output$question2 <- renderIcon(
+          icon = ifelse(
+            test = input$female_weight == 0.74,
+            yes = "correct",
+            no = "incorrect"
           )
-        }
-        else {
-          print(
-            "Hint: The weight is used to match the sample Females with the 
-            population Females."
-          )
-        }
-      )
-    )
-  ) 
+        )
+        output$question2_hint <- renderText(
+          if (input$female_weight == 0.74) {print("Correct! The weight for Females is 52/70 = 0.74.")}
+          else {print("Hint: The weight is used to match the sample Females with the population Females.")
+          }
+        )
+      }
+    }
+  )
   
   ### Gender Proportion Bar Plot 
   output$barPopSample <- renderPlot(
