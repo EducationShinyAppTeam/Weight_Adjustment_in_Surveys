@@ -392,7 +392,11 @@ ui <- list(
             column(
               width = 5,
               wellPanel(
-                p("Instruction: Play around the sliders to see how each affects the graph on the right. Try to calculate the weights for each ethnicity."), 
+                p("Instruction: Play around with the sliders to adjust the group 
+                  weights to see how each affects the graph on the right. 
+                  Can you find weights that make the poll results match the
+                  election results?"), 
+                
                 sliderInput("white", label = "White", min = 0, value = 1, max = 2, step = 0.01),
                 sliderInput("black", label = "Black", min = 0, value = 1, max = 2, step = 0.01),
                 sliderInput("hispanic", label = "Hispanic/Latino", min = 0, value = 1, max = 2, step = 0.01),
