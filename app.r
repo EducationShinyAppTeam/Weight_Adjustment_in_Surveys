@@ -27,7 +27,7 @@ table1 <- read.csv("table_1.csv", TRUE)
 table2 <- read.csv("table_2.csv", TRUE)
 table3 <- read.csv("table_3.csv", TRUE)
 
-# source("global.R")   
+# source("global.R")
 
 # Define UI for App ----
 ui <- list(
@@ -36,7 +36,7 @@ ui <- list(
     skin = "red",
     ### Create the app header ----
     dashboardHeader(
-      title = "Weight Adjustment", 
+      title = "Weight Adjustment",
       titleWidth = 250,
       tags$li(class = "dropdown", actionLink("info", icon("info"))),
       tags$li(class = "dropdown",
@@ -49,7 +49,7 @@ ui <- list(
         )
       )
     ),
-    
+
     ### Create the sidebar/left navigation menu ----
     dashboardSidebar(
       sidebarMenu(
@@ -57,7 +57,7 @@ ui <- list(
         menuItem("Overview", tabName = "overview", icon = icon("dashboard")),
         menuItem("Prerequisites", tabName = "prerequisites", icon = icon("book")),
         menuItem("Explore", tabName = "explore", icon = icon("gamepad")),
-        menuItem("Challenge", tabName = "challenge", icon = icon("gamepad")), 
+        menuItem("Challenge", tabName = "challenge", icon = icon("gamepad")),
         menuItem("References", tabName = "references", icon = icon("leanpub"))
         ),
       tags$div(
@@ -65,8 +65,8 @@ ui <- list(
         boastUtils::sidebarFooter()
       )
     ),
-    
-    
+
+
     ### Create the content ----
     dashboardBody(
       tabItems(
@@ -106,7 +106,7 @@ ui <- list(
             br(),
             br(),
             br(),
-            div(class = "updated", "Last Update: 07/4/2022 by Xinyue Tang.")
+            div(class = "updated", "Last Update: 07/4/2022 by XYT.")
           )
         ),
         #### Set up the Prerequisites Page ----
@@ -117,15 +117,15 @@ ui <- list(
           p("In order to get the most out of this app, please review the
             following:"),
           tags$ul(
-            tags$li("A selected sample may not be a good representation of a population due to many reasons. 
+            tags$li("A selected sample may not be a good representation of a population due to many reasons.
                          Non-response rate is one of the biggest challenges."),
-            tags$li("When some values of a variable measured in the survey are 
+            tags$li("When some values of a variable measured in the survey are
                          under- or over-represented, statisticians use a weighting adjustment as a common correction technique in an attempt to remove bias in a survey."),
-            tags$li("Each survey respondent gets an adjustment weight. Subjects in underrepresented groups get a weight larger than one, 
+            tags$li("Each survey respondent gets an adjustment weight. Subjects in underrepresented groups get a weight larger than one,
                          and subjects in overrepresented groups get a weight smaller than one.")
-          ), 
+          ),
           br(),
-          br(), 
+          br(),
           div(
             style = "text-align: center",
             bsButton(
@@ -137,13 +137,13 @@ ui <- list(
             )
           )
         ),
-        
+
         #### Set up an Explore Page ----
         tabItem(
           tabName = "explore",
           withMathJax(),
-          h2("Weight adjustment with known population"), 
-          br(), 
+          h2("Weight adjustment with known population"),
+          br(),
           p(
             tags$strong(
               "Context:"
@@ -151,31 +151,31 @@ ui <- list(
           ),
           p("In order to find out whether The Ellen Show or The Late Night Show
             is more popular in our campus, we did a survey of 100 students.
-            However, the sample was unrepresentative of the population because 
+            However, the sample was unrepresentative of the population because
             the proportion of females in the sample was much larger than the
-            proportion of females in the population. Therefore, we need to 
-            apply a weighting adjustment to the data we got. Based on the 
+            proportion of females in the population. Therefore, we need to
+            apply a weighting adjustment to the data we got. Based on the
             following table and the proportion graph, can you calculate the
-            correct weights for both males and females? "), 
+            correct weights for both males and females? "),
           fluidRow(
             column(
               width = 6,
               DT::DTOutput(
-                "table1_PopSample", 
-                width = "100%", 
+                "table1_PopSample",
+                width = "100%",
                 height = "auto"
               )
-            ), 
+            ),
             column(
               width = 6,
-              DT::DTOutput("table2_sample", 
-                           width = "100%", 
+              DT::DTOutput("table2_sample",
+                           width = "100%",
                            height = "auto"
               )
             )
           ),
           fluidRow(
-            column(width = 6,  
+            column(width = 6,
                    br(),
                    br(),
                    wellPanel(
@@ -184,55 +184,55 @@ ui <- list(
                        tags$strong("Table 1"),
                        "and the proportion bar plot on the right:"),
                      br(),
-                     p("1. What is the weight for Males to make the sample align with the population? "), 
+                     p("1. What is the weight for Males to make the sample align with the population? "),
                      numericInput(
-                       inputId = "male_weight", 
-                       label = NULL, 
-                       value = "", 
+                       inputId = "male_weight",
+                       label = NULL,
+                       value = "",
                        min = 0,
                        step = 0.1,
-                       max = 10, 
+                       max = 10,
                        width = "100%"
-                     ), 
+                     ),
                      actionButton(
                        inputId = "submit1",
-                       label = "Submit", 
-                       size = "small", 
+                       label = "Submit",
+                       size = "small",
                        style = "default",
-                     ), 
-                     uiOutput("question1"), 
+                     ),
+                     uiOutput("question1"),
                      uiOutput("question1_hint"),
-                     br(), 
-                     br(), 
-                     p("2. What is the weight for Females to make the sample align with the population?"), 
+                     br(),
+                     br(),
+                     p("2. What is the weight for Females to make the sample align with the population?"),
                      numericInput(
-                       inputId = "female_weight", 
-                       label = NULL, 
-                       value = "", 
-                       min = 0, 
-                       step = 0.1, 
-                       max = 10, 
+                       inputId = "female_weight",
+                       label = NULL,
+                       value = "",
+                       min = 0,
+                       step = 0.1,
+                       max = 10,
                        width = "100%"
-                     ), 
+                     ),
                      actionButton(
-                       inputId = "submit2", 
-                       label = "submit", 
-                       size = "small", 
-                       style = "default", 
-                     ), 
-                     uiOutput("question2"), 
+                       inputId = "submit2",
+                       label = "submit",
+                       size = "small",
+                       style = "default",
+                     ),
+                     uiOutput("question2"),
                      uiOutput("question2_hint")
-                   ), 
-            ), 
+                   ),
+            ),
             br(),
-            br(), 
-            br(), 
-            column(width = 6, 
+            br(),
+            br(),
+            column(width = 6,
                    plotOutput("barPopSample")
             )
           ),
-          br(), 
-          br(), 
+          br(),
+          br(),
           p(
             tags$strong("Explore more about this question based on Table 2:"
             )
@@ -240,73 +240,73 @@ ui <- list(
           br(),
           fluidRow(
             column(
-              width = 6, 
+              width = 6,
               wellPanel(
-                p("Instruction: Move the slider bar and watch how weighting 
-                  adjustment affects the graphs and the summation bar. 
+                p("Instruction: Move the slider bar and watch how weighting
+                  adjustment affects the graphs and the summation bar.
                   The explanation of this question will pop up at the end when
                   you get to the correct weights for both Males and Females. "
                 ),
                 br(),
                 sliderInput(
-                  "male", 
+                  "male",
                   "Weight for Males",
                   min = 0,
-                  value = 1, 
-                  max = 2, 
+                  value = 1,
+                  max = 2,
                   step = 0.1
-                ), 
+                ),
                 textOutput("hintM"),
                 br(),
                 sliderInput(
-                  "female", 
-                  "Weight for Females", 
-                  min = 0, 
-                  value = 1, 
-                  max = 2, 
+                  "female",
+                  "Weight for Females",
+                  min = 0,
+                  value = 1,
+                  max = 2,
                   step = 0.01
-                ), 
-                textOutput("hintF"), 
+                ),
+                textOutput("hintF"),
                 br(),
-                
+
                 uiOutput("warning"),
                 plotOutput("HorizontalBar",
-                           width = "100%", 
+                           width = "100%",
                            height = "250px"
                 )
               )
-            ), 
+            ),
             column(
-              width = 6, 
+              width = 6,
               plotOutput("bar")
-            ), 
+            ),
             plotOutput("samplePop"),
             column(width = 6,
                    conditionalPanel(
-                     condition = "(input.male == 1.6) & (input.female == 0.74)", 
+                     condition = "(input.male == 1.6) & (input.female == 0.74)",
                      wellPanel(
                        h2("Congrats!"
-                       ), 
-                       p("The proportion of females is much larger than the 
+                       ),
+                       p("The proportion of females is much larger than the
                          proportion of males in the sample, which does not
                          represent the population well. Before the weighting
                          adjustment, the rate of support for The Ellen Show is
-                         then overestimated because the females preferred that 
-                         show. But after the weighting adjustment, the rate of 
-                         support for The Ellen Show is almost the same as for 
+                         then overestimated because the females preferred that
+                         show. But after the weighting adjustment, the rate of
+                         support for The Ellen Show is almost the same as for
                          the Late Night Show."
-                       ), 
+                       ),
                        p("We can make the response representative with respect to gender. The weight is
                                                             obtained by dividing the population percentage by the corresponding response percentage."
-                       ), 
+                       ),
                        p("If you understand the weighting adjustment with the population distribution known,
-                                                            please go to the challenge page to explore the weighting technique with the population 
+                                                            please go to the challenge page to explore the weighting technique with the population
                                                             distribution unknown."
                        )
-                     ) 
+                     )
                    )
             )
-            
+
           ),
           div(
             style = "text-align: center",
@@ -319,13 +319,13 @@ ui <- list(
             )
           )
         ),
-        
+
         #### Set up the Challenge Page ----
         tabItem(
           tabName = "challenge",
           withMathJax(),
-          h2("Weight adjustment with unknown population"), 
-          br(), 
+          h2("Weight adjustment with unknown population"),
+          br(),
           p(
             tags$strong(
               "Context:"
@@ -336,14 +336,14 @@ ui <- list(
                    p("In order to examine the preferences of different
                      demographic groupings in an election, statisticians
                      conduct an exit poll on election day  (or by phone for
-                     those who already voted).  Table 3 gives exit poll data 
+                     those who already voted).  Table 3 gives exit poll data
                      from the 2020 election broken down by race/ethnicity. Often
-                     pollsters will over-sample smaller demographic groups in 
+                     pollsters will over-sample smaller demographic groups in
                      order to get enough responses to have a reasonable Margin
                      of Error for describing their opinions. Suppose for example
                      , that each of the five groups in Table 3 had the same
                      number of people sample.  That would make weighting very
-                     important for statements about the electorate as a whole 
+                     important for statements about the electorate as a whole
                      since the groups are clearly not of equal size amongst all
                      voters. Draw on what you learned in the previous explore
                      page, and try to find weights for each group that make this
@@ -351,72 +351,72 @@ ui <- list(
                      explore the different weights by moving slider bars for
                      each group below, and confirm your answers when weights
                      give the true results."
-                   ), 
+                   ),
                    wellPanel(
-                     p("Question:"), 
+                     p("Question:"),
                      p("What is the weight for Biden to match the example unweighted
-                       total align with the actual election results?"), 
+                       total align with the actual election results?"),
                      selectInput(
-                       inputId = "white_election", 
-                       label = NULL, 
+                       inputId = "white_election",
+                       label = NULL,
                        choices = list("","More than one", "Less than one"),
                        selected = FALSE,
-                       multiple = FALSE, 
+                       multiple = FALSE,
                        width = "100%"
-                     ), 
+                     ),
                      actionButton(
-                       inputId = "white_submit", 
-                       label = "Submit", 
-                       size = "small", 
+                       inputId = "white_submit",
+                       label = "Submit",
+                       size = "small",
                        style = "defalt"
-                     ), 
+                     ),
                      uiOutput("white_question")
                    )
-            ), 
+            ),
             column(
               width = 7,
-              DT::DTOutput("table3_election", 
-                           width = "80%", 
+              DT::DTOutput("table3_election",
+                           width = "80%",
                            height = "auto"
               )
             )
           ),
-          br(), 
-          br(), 
+          br(),
+          br(),
           p(
             tags$strong(
               "Matching Weights:"
             )
-          ), 
+          ),
           fluidRow(
             column(
               width = 5,
               wellPanel(
-                p("Instruction: Play around with the sliders to adjust the group 
-                  weights to see how each affects the graph on the right. 
+                p("Instruction: Play around with the sliders to adjust the group
+                  weights to see how each affects the graph on the right.
                   Can you find weights that make the poll results match the
-                  election results?"), 
-                
+                  election results?"),
+
                 sliderInput("white", label = "White", min = 0, value = 1, max = 2, step = 0.01),
                 sliderInput("black", label = "Black", min = 0, value = 1, max = 2, step = 0.01),
                 sliderInput("hispanic", label = "Hispanic/Latino", min = 0, value = 1, max = 2, step = 0.01),
                 sliderInput("asian", label = "Asian", min = 0, value = 1, max = 2, step = 0.01),
                 sliderInput("other", label = "Other", min = 0, value = 1, max = 2, step = 0.01)
               )
-            ), 
-            column(width = 7, 
+            ),
+            column(width = 7,
                    plotOutput(
                      "elePopWBar"
-                   ) 
-            ), 
+                   )
+            ),
             br(),
-            br(), 
-            br(), 
-            br(), 
             br(),
-            br(), 
-            br(), 
-            br(), 
+            br(),
+            br(),
+            br(),
+            br(),
+            br(),
+            br(),
             br(),
             conditionalPanel(
               condition = "(input.white + input.black + input.hispanic + input.asian + input.other == 5)
@@ -424,7 +424,7 @@ ui <- list(
                  0.12*input.black/(input.white + input.black + input.hispanic + input.asian + input.other) +
                  0.32*input.hispanic/(input.white + input.black + input.hispanic + input.asian + input.other) +
                  0.31*input.asian/(input.white + input.black + input.hispanic + input.asian + input.other) +
-                 0.04*input.other/(input.white + input.black + input.hispanic + input.asian + input.other) == 0.47) 
+                 0.04*input.other/(input.white + input.black + input.hispanic + input.asian + input.other) == 0.47)
               & (0.01*input.white/(input.white + input.black + input.hispanic + input.asian + input.other) +
                  0.01*input.black/(input.white + input.black + input.hispanic + input.asian + input.other) +
                  0.02*input.hispanic/(input.white + input.black + input.hispanic + input.asian + input.other) +
@@ -434,12 +434,12 @@ ui <- list(
                  0.87*input.black/(input.white + input.black + input.hispanic + input.asian + input.other) +
                  0.66*input.hispanic/(input.white + input.black + input.hispanic + input.asian + input.other) +
                  0.63*input.asian/(input.white + input.black + input.hispanic + input.asian + input.other) +
-                 0.58*input.other/(input.white + input.black + input.hispanic + input.asian + input.other) == 0.51)", 
+                 0.58*input.other/(input.white + input.black + input.hispanic + input.asian + input.other) == 0.51)",
               textOutput("Congratulation")
             )
           )
         ),
-        
+
         #### Set up the References Page ----
         tabItem(
           tabName = "references",
@@ -452,49 +452,49 @@ ui <- list(
             https://CRAN.R-project.org/package=shinyBS"
           ),
           p(
-            class = "hangingindent", 
+            class = "hangingindent",
             "Carey, R. (2019), boastUtils: BOAST Utilities, R Package. Available from https://github.com/EducationShinyAppTeam/boastUtils"
-          ), 
-          p(
-            class = "hangingindent", 
-            "Chang, W. and Borges Ribeio, B. (2018), shinydashboard: Create 
-            dashboards with 'Shiny,' R Package. Available from https://CRAN.
-            R-project.org/package=shinydashboard"
-          ), 
-          citation("ggplot2"), 
-          p(
-            class = "hangingindent", 
-            "Chang, W., Cheng, J., Allaire, J., Xie, Y., and McPherson, J. (2021),
-            shiny: Web application framework for R, R Package. Available from
-            https://CRAN.R-project.org/package=shiny"
-          ), 
+          ),
           p(
             class = "hangingindent",
-            "Chang W, Cheng J, Allaire J, Xie Y and Mcpherson J (2017). 
+            "Chang, W. and Borges Ribeio, B. (2018), shinydashboard: Create
+            dashboards with 'Shiny,' R Package. Available from https://CRAN.
+            R-project.org/package=shinydashboard"
+          ),
+          # citation("ggplot2"),
+          p(
+            class = "hangingindent",
+            "Wickham, H. (2016). ggplot2: Elegant graphics for data analysis.
+            Springer-Verlag:New York. (v 3.3.6) [R package]. Available from
+            https://ggplot2.tidyverse.org"
+          ),
+          p(
+            class = "hangingindent",
+            "Chang W, Cheng J, Allaire J, Xie Y and Mcpherson J (2017).
           shiny: Web Application Framework for R. R package version 1.0.3"
           ),
           p(
-            class = "hangingindent", 
+            class = "hangingindent",
             "Neuwirth E. (2014), RColorBrewer: ColorBrewer Palettes, R Package.
             Available from https://CRAN.R-project.org/package=RColorBrewer"
-          ), 
+          ),
           p(
-            class = "hangingindent", 
+            class = "hangingindent",
             "Perrier, V., Meyer, F., Granjon, D., Fellows, I., and Davis, W. (2020),
             shinyWidgets: Custom Inputs Widgets for Shiny, R package. Available from
             https://cran.r-project.org/web/packages/shinyWidgets/index.html"
-          ), 
+          ),
           p(
-            class = "hangingindent", 
+            class = "hangingindent",
             "Tennekes M. and Ellis P. (2017), treemap: Treemap visualization, R Package.
             Available from https://CRAN.R-project.org/package=treemap"
-          ), 
+          ),
           p(
-            class = "hangingindent", 
-            "Xie Y., Cheng J., Tan X., and Allaire J. (2021), DT: A Wrapper of the 
-            JavaScript Library 'DataTables'. R Package. Available from  
+            class = "hangingindent",
+            "Xie Y., Cheng J., Tan X., and Allaire J. (2021), DT: A Wrapper of the
+            JavaScript Library 'DataTables'. R Package. Available from
             https://CRAN.R-project.org/package=DT"
-          ), 
+          ),
           br(),
           br(),
           br(),
@@ -519,65 +519,65 @@ server <- function(input, output, session) {
       )
     }
   )
-  
+
   ## Set up the Go Button ----
   observeEvent(
-    eventExpr = input$go1, 
+    eventExpr = input$go1,
     updateTabItems(session, "pages", "prerequisites")
   )
- 
+
   ## Set up the Explore Button ----
   observeEvent(
-    eventExpr = input$explore1, 
+    eventExpr = input$explore1,
     updateTabItems(session, "pages", "explore")
   )
-  
+
   ## Set up the Challenge Button ----
   observeEvent(
-    eventExpr = input$challenge, 
+    eventExpr = input$challenge,
     updateTabItems(session, "pages", "challenge")
   )
-  
+
   ## Set up the Explore Page Server ----
   ### create table1 for explore page
   names(table1) <- c("", "Males", "Females")
   output$table1_PopSample <- DT::renderDT(
-    expr = table1, 
-    caption = "Table 1. The percentage of male and female in both sample and population", 
-    autoHideNavigation = TRUE, 
+    expr = table1,
+    caption = "Table 1. The percentage of male and female in both sample and population",
+    autoHideNavigation = TRUE,
     rownames = FALSE,
     style = "bootstrap4",
     options = list(
       ordering = FALSE,
-      scrollX = FALSE, 
-      paging = FALSE, 
-      searching = FALSE, 
-      info = FALSE, 
-      responsive = FALSE 
-    )
-  )
-  
-  ### create table2 for explore page 
-  names(table2) <- c("", "Males", "Females", "Total")
-  output$table2_sample <- DT::renderDT(
-    expr = table2, 
-    caption = "Table 2. The sample results on 100 students",
-    autoHideNavigation = TRUE, 
-    rownames = FALSE, 
-    style = "bootstrap4", 
-    options = list(
-      ordering = FALSE, 
-      scrollX = FALSE, 
-      paging = FALSE, 
-      searching = FALSE, 
-      info = FALSE, 
+      scrollX = FALSE,
+      paging = FALSE,
+      searching = FALSE,
+      info = FALSE,
       responsive = FALSE
     )
   )
-  
-  ### update question 1 button 
+
+  ### create table2 for explore page
+  names(table2) <- c("", "Males", "Females", "Total")
+  output$table2_sample <- DT::renderDT(
+    expr = table2,
+    caption = "Table 2. The sample results on 100 students",
+    autoHideNavigation = TRUE,
+    rownames = FALSE,
+    style = "bootstrap4",
+    options = list(
+      ordering = FALSE,
+      scrollX = FALSE,
+      paging = FALSE,
+      searching = FALSE,
+      info = FALSE,
+      responsive = FALSE
+    )
+  )
+
+  ### update question 1 button
   observeEvent(
-    eventExpr = input$submit1, 
+    eventExpr = input$submit1,
     handlerExp = {
       if (is.na(input$male_weight)) {
         sendSweetAlert(
@@ -602,20 +602,20 @@ server <- function(input, output, session) {
       }
     }
   )
-  
+
   observeEvent(
-    eventExpr = input$male_weight, 
+    eventExpr = input$male_weight,
     handlerExpr = {
       output$question1 <- renderIcon()
       output$question1_hint <- renderText(NULL)
     }
   )
 
-  
-  ### update question 2 button 
-  
+
+  ### update question 2 button
+
   observeEvent(
-    eventExpr = input$submit2, 
+    eventExpr = input$submit2,
     handlerExp = {
       if (is.na(input$female_weight)) {
         sendSweetAlert(
@@ -647,8 +647,8 @@ server <- function(input, output, session) {
       output$question2_hint <- renderText(NULL)
     }
   )
-  
-  ### Gender Proportion Bar Plot 
+
+  ### Gender Proportion Bar Plot
   output$barPopSample <- renderPlot(
     {
       barTable <- matrix(c(52,70,48,30),ncol = 2, byrow = TRUE)
@@ -656,24 +656,24 @@ server <- function(input, output, session) {
       barTable <- as.table(barTable)
       barplot(barTable, main = "Gender Proportion Bar Plot",
               col = c("#FBB4AE","#B3CDE3"),
-              width = 0.8, 
+              width = 0.8,
               xlim = c(0,2),
-              cex.names = 1, 
+              cex.names = 1,
               cex.main = 1.3
       )
       par(lwd = 2)
-      legend("topright", 
+      legend("topright",
              c("Female","Male"),
              fill = c("#FBB4AE","#B3CDE3")
       )
-    }, 
-    width = 370, 
+    },
+    width = 370,
     height = 320)
-  
+
   ### Horizontal Proportion Bar
   output$HorizontalBar <- renderPlot(
     {
-      #### Form Data Vector 
+      #### Form Data Vector
       barTable <- matrix(c(70 * input$female, 30 * input$male), byrow = TRUE)
       colnames(barTable) <- c("")
       barTable <- as.table(barTable)
@@ -719,7 +719,7 @@ server <- function(input, output, session) {
       )
     }
   )
-  
+
   ### Supporting Rate of Both Show Graph
   output$bar <- renderPlot(
     {
@@ -733,7 +733,7 @@ server <- function(input, output, session) {
     par(lwd = 2)
     barplot(matrix,
             col = c("#FBB4AE","#B3CDE3"),
-            main = "Supporting Rate of Both Show", 
+            main = "Supporting Rate of Both Show",
             width = 0.8,
             xlim = c(0,2),
             cex.names = 1,
@@ -746,9 +746,9 @@ server <- function(input, output, session) {
            fill = c("#FBB4AE","#B3CDE3")
     )
   },
-  width = 370, 
+  width = 370,
   height = 320)
-  
+
   ### Use Sample to Represent Population interactive Graph
   output$samplePop <- renderPlot({
     value = inputs()
@@ -757,49 +757,49 @@ server <- function(input, output, session) {
     treemap(dataf,
             index = c("Gender","TVshow"),
             vSize = "Population",
-            type = "index", 
-            palette =  colorRampPalette(brewer.pal(4, "Pastel1"))(4), 
+            type = "index",
+            palette =  colorRampPalette(brewer.pal(4, "Pastel1"))(4),
             title = "Use Sample to Represent Population",
             fontsize.title = 14,
-            fontsize.labels = 16 
+            fontsize.labels = 16
     )
-  }, 
-  width = 300, 
+  },
+  width = 300,
   height = 250)
-  
+
    ### Hints for the slider bars panel (Explore Page)
    output$hintM <- renderText(
      if (input$male == 1.4 | input$male == 1.8) {print("You are close to the right answer.")}
      else if (input$male == 1.6) {print("Congratulations! You got the correct weight for male.")}
-     
+
    )
    output$hintF <- renderText(
      if (input$female == 0.74 ) {print("Congratulations! You got the correct weight for female.")}
      else if (input$female >= 0.7 & input$female <= 0.8) {print("You are close to the right answer.")}
    )
-   
-  
-  
+
+
+
   ## Set up the Challenge page server ----
    ### create table3 for the challenge page
    names(table3) <- c("Race/Ethnicity", "Trump", "Others","Biden","% of two party vote for Biden","Total")
    output$table3_election <- DT::renderDT(
-    expr = table3, 
+    expr = table3,
     caption = "Table 3. 2020 Election Exit Poll Results for Race/Ethnicity Groups.",
-    autoHideNavigation = TRUE, 
-    rownames = FALSE, 
-    style = "bootstrap4", 
+    autoHideNavigation = TRUE,
+    rownames = FALSE,
+    style = "bootstrap4",
     options = list(
-      ordering = FALSE, 
-      scrollX = FALSE, 
-      paging = FALSE, 
-      searching = FALSE, 
-      info = FALSE, 
+      ordering = FALSE,
+      scrollX = FALSE,
+      paging = FALSE,
+      searching = FALSE,
+      info = FALSE,
       responsive = FALSE
     )
   )
- 
-   ### Percentage of the two party vote Graph 
+
+   ### Percentage of the two party vote Graph
    output$elePopWBar <- renderPlot({
      value = inputs()
      barplot(
@@ -812,19 +812,19 @@ server <- function(input, output, session) {
            c(eleDatafEW[13,4] * value[7],eleDatafEW[15,4] * value[7])
          )
        ),
-       names.arg = c("Biden","Trump"), 
+       names.arg = c("Biden","Trump"),
        main = "Percentage of the two party vote",
        col = brewer.pal(8, "YlOrBr")
      )
    },
-   width = 400, 
+   width = 400,
    height = 400)
-   
-   ### update hint question submit button 
+
+   ### update hint question submit button
    observeEvent(
-     eventExpr = input$white_submit, 
+     eventExpr = input$white_submit,
      updateTabItems(
-       session = session, 
+       session = session,
        inputId = "white_submit",
        output$white_question <- renderIcon(
          if (input$white_election == "More than one") {condition = "correct"}
@@ -832,7 +832,7 @@ server <- function(input, output, session) {
        )
      )
    )
-   ### Feedbacks for the slider bars panel 
+   ### Feedbacks for the slider bars panel
    output$warning <- renderUI(
      if (input$male * 30 + input$female * 70 <= 100) {
        p("Note: Notice that the summation bar should never be larger or smaller than n=100 because the weighted sample should have the same sample size as the real sample.")
@@ -841,7 +841,7 @@ server <- function(input, output, session) {
        p("Warning: The summation is now larger than n.", style = "color: red")
      }
    )
-   
+
    output$warningB <- renderUI({
      value = inputs()
      if (sum(value[3], value[4], value[5], value[6], value[7]) <= 1) {
@@ -852,7 +852,7 @@ server <- function(input, output, session) {
      }
    }
    )
-   
+
    output$Congratulation <- renderText(
      print("Congratulations! You have successfully matched the sample unweighted results to the actual election results in 2016!"
      )
@@ -869,7 +869,7 @@ server <- function(input, output, session) {
      if (
        sum(round(input$male * 30),
            round(input$female * 70)
-       ) <= 100) 
+       ) <= 100)
      {
        tags$div(
          'class' = "progress progress-striped active",
@@ -881,9 +881,9 @@ server <- function(input, output, session) {
                     sep = ''
                   )
          ),
-         tags$div('class' = "progress-bar progress-bar-default", 
+         tags$div('class' = "progress-bar progress-bar-default",
                   'style' = paste0(
-                    "width:", 
+                    "width:",
                     round(input$female * 70),
                     "%",
                     sep = '')
@@ -898,15 +898,15 @@ server <- function(input, output, session) {
            'style' = paste0(
              "width:",
              round(input$male * 30),
-             "%", 
+             "%",
              sep = '')
          ),
          tags$div(
-           'class' = "progress-bar progress-bar-default", 
+           'class' = "progress-bar progress-bar-default",
            'style' = paste0(
              "width:",
              100 - round(input$male * 30),
-             "%", 
+             "%",
              sep = ''
            )
          )
@@ -940,6 +940,6 @@ server <- function(input, output, session) {
   )
 }
 
-# Boast App Call 
+# Boast App Call
 boastUtils::boastApp(ui = ui, server = server)
 
